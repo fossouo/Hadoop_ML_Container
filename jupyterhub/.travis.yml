@@ -1,0 +1,28 @@
+language: python
+sudo: false
+python:
+  - nightly
+  - 3.6
+  - 3.5
+  - 3.4
+
+# installing dependencies
+before_install:
+  - nvm install 6; nvm use 6
+  - npm install
+  - npm install -g configurable-http-proxy
+install:
+  - pip install -U pip
+  - pip install --pre -r dev-requirements.txt .
+
+# running tests
+script:
+  - pytest --maxfail=2 --cov=jupyterhub jupyterhub/tests
+after_success:
+  - codecov
+
+matrix:
+  fast_finish: true
+  include:
+    - python: 3.6
+      env: JUPYTERHUB_TEST_SUBDOMAIN_HOST=http://localhost.jovyan.org:8000
