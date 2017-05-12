@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  jupyterhub:
+    build: ./jupyterhub
+    command: /opt/conda/bin/conda install jupyter -y --quiet && mkdir /opt/notebooks && /opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser
+    volumes:
+     - ./jupyterhub:/opt/conda
+    ports:
+      - "8888:8888"
+    networks:
+      - jupyterhub-tier
+      - hadoop-tier
+
+  hadoop:
+    build: ./hadoop
+    command: nodemon --debug server.js
+    volumes:
+      - ./hadoop:/app
+    ports:
+      - "8088:8088"
+      - "50070:50070"
+      - "50010:50010"
+    networks:
+      - jupyterhub-tier
+      - hadoop-tier
+
+volumes:
+  db-data:
+
+networks:
+  jupyterhub-tier:
+  hadoop-tier:
