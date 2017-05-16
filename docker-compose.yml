@@ -8,7 +8,7 @@ services:
     volumes:
      - ./jupyterhub:/src/jupyterhub
     ports:
-      - "8888:443"
+      - "8888:8000"
     networks:
       - jupyterhub-tier
       - hadoop-tier
