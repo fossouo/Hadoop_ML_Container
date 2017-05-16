@@ -2,19 +2,21 @@ version: "3"
 
 services:
   jupyterhub:
-    build: ./jupyterhub
-    command: /opt/conda/bin/conda install jupyter -y --quiet && mkdir /opt/notebooks && /opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser
+    image: jupyterhub/jupyterhub:0.7.2
+    container_name: jupyterhub_ML
+    command: jupyterhub
     volumes:
-     - ./jupyterhub:/opt/conda
+     - ./jupyterhub:/src/jupyterhub
     ports:
-      - "8888:8888"
+      - "8888:443"
     networks:
       - jupyterhub-tier
       - hadoop-tier
 
   hadoop:
     build: ./hadoop
-    command: nodemon --debug server.js
+    command: /etc/bootstrap.sh -d
+    container_name: hadoop_ML
     volumes:
       - ./hadoop:/app
     ports:

@@ -12,6 +12,7 @@ RUN yum clean all; \
     rpm --rebuilddb; \
     yum install -y curl which tar sudo openssh-server openssh-clients rsync
 # update libselinux. see https://github.com/sequenceiq/hadoop-docker/issues/14
+RUN rpm --rebuilddb && yum install -y yum-plugin-ovl
 RUN yum update -y libselinux
 
 # passwordless ssh
