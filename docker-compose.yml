@@ -1,18 +1,17 @@
 version: "3"
 
 services:
-  jupyterhub:
-    image: jupyterhub/jupyterhub:0.7.2
-    container_name: jupyterhub_ML
-    command: jupyterhub
-    volumes:
-     - ./jupyterhub:/src/jupyterhub
-    ports:
-      - "8888:8000"
-    networks:
-      - jupyterhub-tier
-      - hadoop-tier
-
+#  jupyterhub:
+#    image: jupyterhub/jupyterhub:0.7.2
+#    container_name: jupyterhub_ML
+#    command: jupyterhub
+#    volumes:
+#     - ./jupyterhub:/src/jupyterhub
+#    ports:
+#      - "8888:8000"
+#    networks:
+#      - jupyterhub-tier
+#      - hadoop-tier
   hadoop:
     build: ./hadoop
     command: /etc/bootstrap.sh -d
@@ -23,6 +22,8 @@ services:
       - "8088:8088"
       - "50070:50070"
       - "50010:50010"
+      - "8080:8080"
+      - "8081:8081"
     networks:
       - jupyterhub-tier
       - hadoop-tier

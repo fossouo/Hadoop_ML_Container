@@ -106,7 +106,26 @@ RUN \
 RUN cd /root && tar zxf spark-bin-without-hadoop.tgz
 RUN mv /root/spark-1.5.1-bin-without-hadoop /usr/local/spark
 
-# install spark
+# install zeppelin
+
+RUN yum groupinstall -y "Development Tools"
+# install node
+RUN curl -sL https://rpm.nodesource.com/setup_6.x | bash
+RUN yum install -y nodejs
+
+# install maven
+RUN \
+    echo "download maven (8,13MB)" && wget -q -O /root/maven-bin.tar.gz https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.5.0/apache-maven-3.5.0-bin.tar.gz && \
+    echo "untar file" && cd /root && tar zxf maven-bin.tar.gz -C /usr/local && \
+    ln -s /usr/local/apache-maven-3.5.0/bin/mvn /usr/local/bin:mvn
+RUN yum install -y telnet net-tools openssl openssl-devel 
+
+# install zeppelin
+RUN \
+    echo "download zeppelin (502M)" && wget -q -O /root/zeppelin-bin.tar.gz http://archive.apache.org/dist/incubator/zeppelin/0.5.5-incubating/zeppelin-0.5.5-incubating-bin-all.tgz && \
+    echo "untar file" && cd /root && tar zxf zeppelin-bin.tar.gz -C /usr/local/ && \
+    ln -s /usr/local/zeppelin-0.5.5-incubating-bin-all /usr/local/zeppelin && \
+    ls -ll /usr/local/zeppelin-0.5.5-incubating-bin-all
 
 CMD ["/etc/bootstrap.sh", "-d"]
 
