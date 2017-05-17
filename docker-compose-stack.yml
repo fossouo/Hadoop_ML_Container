@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  jupyterhub:
+    image: jupyterhub/jupyterhub:0.7.2
+    command: bash -c "echo -e "password\password\n\n\n\n\n\n\n\n"|adduser admin && jupyterhub"
+    volumes:
+     - ./jupyterhub:/src/jupyterhub
+    ports:
+      - "8888:8000"
+    networks:
+      - jupyterhub-tier
+      - hadoop-tier
+
+  hadoop:
+    build: ./hadoop
+    command: /etc/bootstrap.sh -d
+    volumes:
+      - ./hadoop:/app
+    ports:
+      - "8088:8088"
+      - "50070:50070"
+      - "50010:50010"
+    networks:
+      - jupyterhub-tier
+      - hadoop-tier
+
+volumes:
+  db-data:
+
+networks:
+  jupyterhub-tier:
+  hadoop-tier:

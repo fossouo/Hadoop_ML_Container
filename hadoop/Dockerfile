@@ -10,7 +10,7 @@ USER root
 # install dev tools
 RUN yum clean all; \
     rpm --rebuilddb; \
-    yum install -y curl which tar sudo openssh-server openssh-clients rsync
+    yum install -y wget curl which tar sudo openssh-server openssh-clients rsync
 # update libselinux. see https://github.com/sequenceiq/hadoop-docker/issues/14
 RUN rpm --rebuilddb && yum install -y yum-plugin-ovl
 RUN yum update -y libselinux
@@ -111,10 +111,10 @@ RUN mv /root/spark-1.5.1-bin-without-hadoop /usr/local/spark
 CMD ["/etc/bootstrap.sh", "-d"]
 
 # Hdfs ports
-EXPOSE 50010 50020 50070 50075 50090
+#EXPOSE 50010 50020 50070 50075 50090
 # Mapred ports
-EXPOSE 19888
+#EXPOSE 19888
 #Yarn ports
-EXPOSE 8030 8031 8032 8033 8040 8042 8088
+#EXPOSE 8030 8031 8032 8033 8040 8042 8088
 #Other ports
-EXPOSE 49707 2122   
+#EXPOSE 49707 2122   
