@@ -3,7 +3,9 @@
 : ${HADOOP_PREFIX:=/usr/local/hadoop}
 
 $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
-
+export SPARK_DIST_CLASSPATH=`$HADOOP_PREFIX/bin/hadoop classpath`
+export SPARK_HOME=/usr/local/spark
+export SPARK_CONF_DIR=$SPARK_HOME/conf
 rm /tmp/*.pid
 
 # installing libraries if any - (resource urls added comma separated to the ACP system variable)

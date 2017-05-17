@@ -98,6 +98,16 @@ RUN echo "Port 2122" >> /etc/ssh/sshd_config
 RUN service sshd start && $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh && $HADOOP_PREFIX/sbin/start-dfs.sh && $HADOOP_PREFIX/bin/hdfs dfs -mkdir -p /user/root
 RUN service sshd start && $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh && $HADOOP_PREFIX/sbin/start-dfs.sh && $HADOOP_PREFIX/bin/hdfs dfs -put $HADOOP_PREFIX/etc/hadoop/ input
 
+# download spark
+
+RUN \
+    echo "load spark (184MB)" && \
+    wget -q -O /root/spark-bin-without-hadoop.tgz https://archive.apache.org/dist/spark/spark-1.5.1/spark-1.5.1-bin-without-hadoop.tgz
+RUN cd /root && tar zxf spark-bin-without-hadoop.tgz
+RUN mv /root/spark-1.5.1-bin-without-hadoop /usr/local/spark
+
+# install spark
+
 CMD ["/etc/bootstrap.sh", "-d"]
 
 # Hdfs ports
